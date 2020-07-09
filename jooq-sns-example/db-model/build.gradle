@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+}
+
+ext {
+    jooqVersion = "3.13.2"
+}
+
+repositories {
+    jcenter()
+}
+
+configurations {
+    jooqCodeGen
+}
+
+dependencies {
+    implementation "org.jooq:jooq:$jooqVersion"
+    implementation "org.jooq:jooq-meta:$jooqVersion"
+    implementation "org.jooq:jooq-codegen:$jooqVersion"
+
+    jooqCodeGen "org.jooq:jooq:$jooqVersion"
+    jooqCodeGen "org.jooq:jooq-meta:$jooqVersion"
+    jooqCodeGen "org.jooq:jooq-codegen:$jooqVersion"
+    jooqCodeGen 'org.postgresql:postgresql:42.2.14'
+}
+
+task jooqCodeGen(type: JavaExec) {
+    classpath = configurations.jooqCodeGen
+    main = 'org.jooq.codegen.GenerationTool'
+    args("${rootProject.file('jooq/jooq.xml')}")
+    outputs.dir(project.file('src/main/java'))
+    inputs.file("${rootProject.file('jooq/jooq.xml')}")
+}
