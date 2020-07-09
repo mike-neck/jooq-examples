@@ -1,0 +1,76 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.71'
+    id 'application'
+    id "org.mikeneck.graalvm-native-image" version "0.7.0"
+}
+
+ext {
+  jooqVersion = "3.13.2"
+}
+
+repositories {
+    jcenter()
+}
+
+configurations {
+  jooqCodeGen
+}
+
+dependencies {
+    implementation platform('org.jetbrains.kotlin:kotlin-bom')
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+
+    implementation "org.jooq:jooq:$jooqVersion"
+    implementation "org.jooq:jooq-meta:$jooqVersion"
+    implementation "org.jooq:jooq-codegen:$jooqVersion"
+
+    jooqCodeGen "org.jooq:jooq:$jooqVersion"
+    jooqCodeGen "org.jooq:jooq-meta:$jooqVersion"
+    jooqCodeGen "org.jooq:jooq-codegen:$jooqVersion"
+    jooqCodeGen 'org.postgresql:postgresql:42.2.14'
+
+    implementation 'org.postgresql:postgresql:42.2.14'
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+}
+
+application {
+    mainClassName = 'com.example.AppKt'
+}
+
+task jooqCodeGen(type: JavaExec) {
+    classpath = configurations.jooqCodeGen
+    main = 'org.jooq.codegen.GenerationTool'
+    args('jooq/jooq.xml')
+    outputs.dir('src/main/java')
+}
+
+task compileGeneratedJava(type: JavaCompile, dependsOn: jooqCodeGen) {
+    classpath = configurations.compileClasspath
+    source = sourceSets.main.java
+    destinationDirectory = compileJava.destinationDirectory
+}
+
+compileKotlin {
+    dependsOn compileGeneratedJava
+}
+
+compileJava.enabled = false
+
+nativeImage {
+    graalVmHome = System.getProperty('JAVA_HOME')
+    mainClass = 'com.example.AppKt'
+    executableName = 'jooq-tutorial'
+    arguments(
+            '--no-fallback',
+            '--allow-incomplete-classpath'
+    )
+}
+
+generateNativeImageConfig {
+    enabled = true
+    byRunningApplicationWithoutArguments()
+}
