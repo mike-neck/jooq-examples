@@ -6,6 +6,9 @@ data class User(
 )
 
 
-data class UserId(val value: Long)
+data class UserId(val value: Long): Comparable<UserId>
+by object : Comparable<UserId> {
+    override fun compareTo(other: UserId): Int = value.compareTo(other.value)
+}
 
 data class UserKey(val value: String)

@@ -1,6 +1,8 @@
 package com.example
 
 import com.zaxxer.hikari.HikariDataSource
+import db.fixture.TestSetup
+import org.jooq.DSLContext
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.boot.autoconfigure.jooq.JooqAutoConfiguration
@@ -9,6 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
@@ -44,4 +47,13 @@ class TestDbConfig {
     @Bean
     fun transactionTemplate(platformTransactionManager: PlatformTransactionManager): TransactionTemplate =
         TransactionTemplate(platformTransactionManager)
+
+    @Bean
+    fun jdbcTemplate(dataSource: DataSource): JdbcTemplate =
+        JdbcTemplate(dataSource)
+
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
+    @Bean
+    fun testSetup(dsl: DSLContext, transactionTemplate: TransactionTemplate, jdbcTemplate: JdbcTemplate): TestSetup =
+        TestSetup(dsl, transactionTemplate, jdbcTemplate)
 }

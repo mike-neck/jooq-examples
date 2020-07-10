@@ -23,6 +23,8 @@ dependencies {
     implementation project(':db-model')
     implementation "org.jooq:jooq:$jooqVersion"
 
+    testImplementation(testFixtures(project(':db-model')))
+
     testImplementation 'org.assertj:assertj-core'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 
