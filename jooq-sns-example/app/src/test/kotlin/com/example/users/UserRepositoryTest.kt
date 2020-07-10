@@ -1,6 +1,7 @@
 package com.example.users
 
 import com.example.UsingDatabase
+import com.example.emails.EmailAddress
 import org.assertj.core.api.Assertions.assertThat
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,6 +32,7 @@ class UserRepositoryTest {
     @Configuration
     class Config {
 
+        @Suppress("SpringJavaInjectionPointsAutowiringInspection")
         @Bean
         fun userRepository(dsl: DSLContext): UserRepository = UserRepositoryImpl(dsl)
     }
