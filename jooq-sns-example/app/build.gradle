@@ -26,6 +26,7 @@ dependencies {
     testImplementation(testFixtures(project(':db-model')))
 
     testImplementation 'org.assertj:assertj-core'
+    testImplementation 'org.assertj:assertj-db:1.3.0'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
