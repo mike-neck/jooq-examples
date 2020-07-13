@@ -7,6 +7,10 @@ import com.example.app.emails.EmailAddress
 import com.example.app.emails.EmailDao
 import com.example.app.emails.EmailDaoTest
 import com.example.app.emails.EmailId
+import db.example.tables.records.EmailsRecord
+import db.example.tables.records.TemporaryUsersRecord
+import db.example.tables.records.UserEmailsRecord
+import db.example.tables.records.UsersRecord
 import db.fixture.TestSetup
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.db.api.Assertions.assertThat
@@ -17,6 +21,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import org.springframework.transaction.support.TransactionTemplate
+import java.time.Duration
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
@@ -72,6 +78,41 @@ class TemporaryUserDaoTest {
             .value().isEqualTo("22bb33cc44dd")
             .column("email_id")
             .value().isEqualTo(200L)
+    }
+
+    @Test
+    fun temporaryUserExisting() {
+        val localDateTime = LocalDateTime.of(2020, 1, 2, 15, 0, 0, 0)
+        val expiration = TemporaryUserExpiration(Duration.of(7L, ChronoUnit.DAYS))
+
+        testSetup.insert(EmailsRecord(1, "user@example.com", localDateTime))
+        testSetup.insert(EmailsRecord(2, "another@example.com", localDateTime))
+
+        testSetup.insert(TemporaryUsersRecord("aa11bb22cc", 1, localDateTime))
+        testSetup.insert(UsersRecord(3, "another", "石田三成"))
+        testSetup.insert(UserEmailsRecord(2, 3, localDateTime))
+
+        val instant = OffsetDateTime.of(2020, 1, 3, 15, 0, 0, 0, ZoneOffset.UTC).toInstant()
+        val now = Now(instant)
+
+        val temporaryUser = transactionTemplate.execute {
+            temporaryUserDao.findValidTemporaryUserByEmail(EmailAddress("user", "example.com"), expiration, now)
+        }
+
+        assertThat(temporaryUser).isNotNull
+    }
+
+    @Test
+    fun temporaryUserNotExisting() {
+        val expiration = TemporaryUserExpiration(Duration.of(7L, ChronoUnit.DAYS))
+        val instant = OffsetDateTime.of(2020, 1, 3, 15, 0, 0, 0, ZoneOffset.UTC).toInstant()
+        val now = Now(instant)
+
+        val temporaryUser = transactionTemplate.execute {
+            temporaryUserDao.findValidTemporaryUserByEmail(EmailAddress("user", "example.com"), expiration, now)
+        }
+
+        assertThat(temporaryUser).isNull()
     }
 
     @Configuration
