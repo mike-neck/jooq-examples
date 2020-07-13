@@ -1,7 +1,7 @@
 package com.example
 
-import com.example.emails.EmailAddress
-import com.example.users.UserDao
+import com.example.app.emails.EmailAddress
+import com.example.app.users.UserDao
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication

@@ -1,4 +1,4 @@
-package com.example.emails
+package com.example.app.emails
 
 import com.example.Now
 import com.example.TableFactory

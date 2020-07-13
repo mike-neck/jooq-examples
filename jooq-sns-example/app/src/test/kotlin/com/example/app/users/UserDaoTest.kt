@@ -1,8 +1,8 @@
-package com.example.users
+package com.example.app.users
 
 import com.example.UsingDatabase
-import com.example.emails.EmailAddress
-import com.example.emails.EmailId
+import com.example.app.emails.EmailAddress
+import com.example.app.emails.EmailId
 import db.example.tables.records.EmailsRecord
 import db.example.tables.records.PasswordsRecord
 import db.example.tables.records.TemporaryUsersRecord

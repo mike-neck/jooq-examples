@@ -1,7 +1,7 @@
-package com.example.temporaryusers
+package com.example.app.temporaryusers
 
 import com.example.Now
-import com.example.emails.EmailId
+import com.example.app.emails.EmailId
 import java.time.Duration
 import java.time.Instant
 import kotlin.random.Random

@@ -1,4 +1,4 @@
-package com.example.temporaryusers
+package com.example.app.temporaryusers
 
 interface TemporaryUserDao {
 

@@ -1,7 +1,7 @@
-package com.example.temporaryusers
+package com.example.app.temporaryusers
 
 import com.example.Now.Companion.localDateTime
-import com.example.emails.EmailId
+import com.example.app.emails.EmailId
 import com.example.nullable
 import db.example.tables.TemporaryUsers
 import org.jooq.DSLContext

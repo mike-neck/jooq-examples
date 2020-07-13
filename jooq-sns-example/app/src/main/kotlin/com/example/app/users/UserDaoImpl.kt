@@ -1,6 +1,6 @@
-package com.example.users
+package com.example.app.users
 
-import com.example.emails.EmailAddress
+import com.example.app.emails.EmailAddress
 import db.example.tables.Emails
 import db.example.tables.UserEmails
 import db.example.tables.Users

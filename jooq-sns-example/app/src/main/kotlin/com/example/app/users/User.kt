@@ -1,4 +1,4 @@
-package com.example.users
+package com.example.app.users
 
 data class User(
     val userId: UserId,

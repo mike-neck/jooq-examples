@@ -1,6 +1,6 @@
-package com.example.users
+package com.example.app.users
 
-import com.example.emails.EmailAddress
+import com.example.app.emails.EmailAddress
 
 
 interface UserDao {

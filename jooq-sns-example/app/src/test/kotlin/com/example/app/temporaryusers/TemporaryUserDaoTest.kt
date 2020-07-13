@@ -1,12 +1,12 @@
-package com.example.temporaryusers
+package com.example.app.temporaryusers
 
 import com.example.Now
 import com.example.TableFactory
 import com.example.UsingDatabase
-import com.example.emails.EmailAddress
-import com.example.emails.EmailDao
-import com.example.emails.EmailDaoTest
-import com.example.emails.EmailId
+import com.example.app.emails.EmailAddress
+import com.example.app.emails.EmailDao
+import com.example.app.emails.EmailDaoTest
+import com.example.app.emails.EmailId
 import db.fixture.TestSetup
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.db.api.Assertions.assertThat
