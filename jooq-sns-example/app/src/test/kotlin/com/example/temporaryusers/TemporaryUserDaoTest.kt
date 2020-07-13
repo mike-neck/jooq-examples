@@ -24,9 +24,9 @@ import kotlin.test.Test
 
 @UsingDatabase
 @Import(
-    TemporaryUserRepositoryTest.Config::class,
+    TemporaryUserDaoTest.Config::class,
     EmailDaoTest.Config::class)
-class TemporaryUserRepositoryTest {
+class TemporaryUserDaoTest {
 
     @Autowired
     lateinit var testSetup: TestSetup
@@ -39,7 +39,7 @@ class TemporaryUserRepositoryTest {
     lateinit var emailDao: EmailDao
 
     @Autowired
-    lateinit var temporaryUserRepository: TemporaryUserRepository
+    lateinit var temporaryUserDao: TemporaryUserDao
 
     @Autowired
     lateinit var tableFactory: TableFactory
@@ -57,7 +57,7 @@ class TemporaryUserRepositoryTest {
             val emailId = EmailId(200L)
             emailDao.save(emailId, EmailAddress("test", "example.com"), now)
             val temporaryUser = TemporaryUser(TemporaryHashKey("22bb33cc44dd"), emailId, TemporaryUserCreated(instant))
-            temporaryUserRepository.save(temporaryUser)
+            temporaryUserDao.save(temporaryUser)
         }
 
         assertThat(user)
@@ -79,7 +79,7 @@ class TemporaryUserRepositoryTest {
 
         @Suppress("SpringJavaInjectionPointsAutowiringInspection")
         @Bean
-        fun temporaryUserRepository(dsl: DSLContext): TemporaryUserRepository =
-            TemporaryUserRepositoryImpl(dsl)
+        fun temporaryUserRepository(dsl: DSLContext): TemporaryUserDao =
+            TemporaryUserDaoImpl(dsl)
     }
 }

@@ -1,6 +1,6 @@
 package com.example.temporaryusers
 
-interface TemporaryUserRepository {
+interface TemporaryUserDao {
 
     fun save(temporaryUser: TemporaryUser): TemporaryUser?
 }

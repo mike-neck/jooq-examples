@@ -8,12 +8,11 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
 
 @Repository
-class TemporaryUserRepositoryImpl(
+class TemporaryUserDaoImpl(
     private val dsl: DSLContext
-): TemporaryUserRepository {
+): TemporaryUserDao {
 
     private val temporaryUsers: TemporaryUsers = TemporaryUsers.TEMPORARY_USERS
 
