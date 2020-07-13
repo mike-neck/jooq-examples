@@ -22,14 +22,14 @@ import java.util.*
 import kotlin.test.Test
 
 @UsingDatabase
-@Import(UserRepositoryTest.Config::class)
-class UserRepositoryTest {
+@Import(UserDaoTest.Config::class)
+class UserDaoTest {
 
     @Autowired
     lateinit var testSetup: TestSetup
 
     @Autowired
-    lateinit var userRepository: UserRepository
+    lateinit var userDao: UserDao
 
     @Autowired
     lateinit var transactionTemplate: TransactionTemplate
@@ -91,7 +91,7 @@ class UserRepositoryTest {
     fun findExistingUser() {
         transactionTemplate.execute {
             testIds.values.flatMap { it.toList() }.forEach {
-                val user = userRepository.findByEmail(EmailAddress("user-${it.value}", "example.com"))
+                val user = userDao.findByEmail(EmailAddress("user-${it.value}", "example.com"))
                 assertThat(user).isNotNull
             }
         }
@@ -102,6 +102,6 @@ class UserRepositoryTest {
 
         @Suppress("SpringJavaInjectionPointsAutowiringInspection")
         @Bean
-        fun userRepository(dsl: DSLContext): UserRepository = UserRepositoryImpl(dsl)
+        fun userRepository(dsl: DSLContext): UserDao = UserDaoImpl(dsl)
     }
 }

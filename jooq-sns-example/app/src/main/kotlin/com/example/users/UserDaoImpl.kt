@@ -8,7 +8,7 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 
 @Repository
-class UserRepositoryImpl(private val dsl: DSLContext): UserRepository {
+class UserDaoImpl(private val dsl: DSLContext): UserDao {
 
     val Int.userId: UserId get() = UserId(this.toLong())
 

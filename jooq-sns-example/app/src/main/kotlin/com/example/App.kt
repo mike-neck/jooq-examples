@@ -1,7 +1,7 @@
 package com.example
 
 import com.example.emails.EmailAddress
-import com.example.users.UserRepository
+import com.example.users.UserDao
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
@@ -16,9 +16,9 @@ class App {
     val logger = logger<App>()
 
     @Bean
-    fun commandLineRunner(userRepository: UserRepository): CommandLineRunner =
+    fun commandLineRunner(userDao: UserDao): CommandLineRunner =
         CommandLineRunner {
-            val user = userRepository.findByEmail(EmailAddress("user-1", "example.com"))
+            val user = userDao.findByEmail(EmailAddress("user-1", "example.com"))
             logger.info("user of user-1, example.com = {}", user)
         }
 }

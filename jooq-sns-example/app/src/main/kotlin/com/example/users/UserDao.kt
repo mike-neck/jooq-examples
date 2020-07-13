@@ -3,7 +3,7 @@ package com.example.users
 import com.example.emails.EmailAddress
 
 
-interface UserRepository {
+interface UserDao {
 
     fun findByEmail(emailAddress: EmailAddress): User?
 }
