@@ -73,12 +73,16 @@ class CreateTemporaryUserUseCaseTest {
 
         val temporaryUsers = tableFactory.table("temporary_users")
 
-        assertAll(
-            { assertThat(either.isRight).isTrue() },
-            { assertThat(temporaryUsers)
-                .hasNumberOfRows(1)
-                .column("temporary_hash_key").value().isEqualTo(temporaryHashKeyFactory.createNew().value) }
-        )
+        transactionTemplate.executeWithoutResult {
+            assertAll(
+                { assertThat(either.isRight).isTrue() },
+                {
+                    assertThat(temporaryUsers)
+                        .hasNumberOfRows(1)
+                        .column("temporary_hash_key").value().isEqualTo(temporaryHashKeyFactory.createNew().value)
+                }
+            )
+        }
     }
 
     @Suppress("SpringJavaInjectionPointsAutowiringInspection")
