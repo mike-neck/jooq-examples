@@ -2,7 +2,7 @@ package com.example.emails
 
 import com.example.Now
 
-interface EmailRepository {
+interface EmailDao {
 
     fun save(emailId: EmailId, emailAddress: EmailAddress, now: Now = Now.get()): EmailId?
 }

@@ -7,9 +7,9 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 
 @Repository
-class EmailRepositoryImpl(
+class EmailDaoImpl(
     private val dsl: DSLContext
-): EmailRepository {
+): EmailDao {
 
     val emails: Emails = Emails.EMAILS
 

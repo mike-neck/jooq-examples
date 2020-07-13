@@ -4,9 +4,9 @@ import com.example.Now
 import com.example.TableFactory
 import com.example.UsingDatabase
 import com.example.emails.EmailAddress
+import com.example.emails.EmailDao
+import com.example.emails.EmailDaoTest
 import com.example.emails.EmailId
-import com.example.emails.EmailRepository
-import com.example.emails.EmailRepositoryTest
 import db.fixture.TestSetup
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.db.api.Assertions.assertThat
@@ -25,7 +25,7 @@ import kotlin.test.Test
 @UsingDatabase
 @Import(
     TemporaryUserRepositoryTest.Config::class,
-    EmailRepositoryTest.Config::class)
+    EmailDaoTest.Config::class)
 class TemporaryUserRepositoryTest {
 
     @Autowired
@@ -36,7 +36,7 @@ class TemporaryUserRepositoryTest {
 
     @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    lateinit var emailRepository: EmailRepository
+    lateinit var emailDao: EmailDao
 
     @Autowired
     lateinit var temporaryUserRepository: TemporaryUserRepository
@@ -55,7 +55,7 @@ class TemporaryUserRepositoryTest {
         val now = Now(instant)
         val user = transactionTemplate.execute {
             val emailId = EmailId(200L)
-            emailRepository.save(emailId, EmailAddress("test", "example.com"), now)
+            emailDao.save(emailId, EmailAddress("test", "example.com"), now)
             val temporaryUser = TemporaryUser(TemporaryHashKey("22bb33cc44dd"), emailId, TemporaryUserCreated(instant))
             temporaryUserRepository.save(temporaryUser)
         }

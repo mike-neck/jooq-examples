@@ -18,8 +18,8 @@ import java.time.ZoneOffset
 import kotlin.test.Test
 
 @UsingDatabase
-@Import(EmailRepositoryTest.Config::class)
-class EmailRepositoryTest {
+@Import(EmailDaoTest.Config::class)
+class EmailDaoTest {
 
     @Autowired
     lateinit var testSetup: TestSetup
@@ -28,7 +28,7 @@ class EmailRepositoryTest {
     lateinit var transactionTemplate: TransactionTemplate
 
     @Autowired
-    lateinit var emailRepository: EmailRepository
+    lateinit var emailDao: EmailDao
 
     @Autowired
     lateinit var tableFactory: TableFactory
@@ -43,7 +43,7 @@ class EmailRepositoryTest {
         val instant = OffsetDateTime.of(2020, 1, 2, 15, 4, 5, 0, ZoneOffset.UTC).toInstant()
         val now = Now(instant)
         val emailId = transactionTemplate.execute {
-            emailRepository.save(EmailId(200), EmailAddress("user-1", "example.com"), now)
+            emailDao.save(EmailId(200), EmailAddress("user-1", "example.com"), now)
         }
         assertThat(emailId).isNotNull
         val id = emailId as EmailId
@@ -58,6 +58,6 @@ class EmailRepositoryTest {
 
         @Suppress("SpringJavaInjectionPointsAutowiringInspection")
         @Bean
-        fun emailRepository(dsl: DSLContext): EmailRepository = EmailRepositoryImpl(dsl)
+        fun emailRepository(dsl: DSLContext): EmailDao = EmailDaoImpl(dsl)
     }
 }
