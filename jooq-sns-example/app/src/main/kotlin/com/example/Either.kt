@@ -30,6 +30,9 @@ interface Either<L: Any, R: Any> {
 
         operator fun <R: Any, N: Any> Either<ErrorContext, R>.invoke(actionContext: String, action: (R) -> Either<Throwable, N>): Either<ErrorContext, N> =
             this.flatMap { action(it).errorMap { e -> ErrorContext(actionContext, e) } }
+
+        fun <L: Any, R: Any> R?.either(left: L): Either<L, R> =
+            this?.let { right<L, R>(it) } ?: left(left)
     }
 }
 
